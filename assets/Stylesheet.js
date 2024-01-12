@@ -15,14 +15,20 @@ export const styles = StyleSheet.create({
   },
   loginform: {
     padding: 36,
-    gap: 8
+    gap: 8,
   },
   loginform_buttons: {
     gap: 8,
-    paddingLeft: "50%"
+    paddingLeft: "50%",
   },
   errorMessage: {
     color: "red",
     fontSize: 16,
-  }
+  },
+  p_16: {
+    padding: 16,
+  },
+  gap_16: {
+    gap: 16,
+  },
 });

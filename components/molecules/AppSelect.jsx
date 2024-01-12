@@ -18,6 +18,7 @@ export default function AppSelect({
   items = [],
   selectedValue = null,
   onChange = () => {},
+  placeholder = "Select your item",
 }) {
   return (
     <Select
@@ -25,7 +26,10 @@ export default function AppSelect({
       onValueChange={onChange}
     >
       <SelectTrigger variant="outline" size="md">
-        <SelectInput placeholder={items[0].label}></SelectInput>
+        <SelectInput
+          placeholder={placeholder}
+          placeholderTextColor="rgba(0, 0, 0, 0.5)"
+        ></SelectInput>
         <SelectIcon mr="$3">
           <Icon as={ChevronDownIcon}></Icon>
         </SelectIcon>
@@ -36,9 +40,13 @@ export default function AppSelect({
           <SelectDragIndicatorWrapper>
             <SelectDragIndicator></SelectDragIndicator>
           </SelectDragIndicatorWrapper>
-          {items.map((item) => {
+          {items.map((item, index) => {
             return (
-              <SelectItem label={item.label} value={item.value}></SelectItem>
+              <SelectItem
+                key={index}
+                label={item.label}
+                value={item.value}
+              ></SelectItem>
             );
           })}
         </SelectContent>
