@@ -12,7 +12,7 @@ export default function App() {
     <GluestackUIProvider config={config}>
       <NavigationContainer>
         <Tab.Navigator>
-          <Tab.Screen name="Home" component={HomeRoot} options={{ tabBarIcon: "run" }}></Tab.Screen>
+          <Tab.Screen name="HomeRoot" component={HomeRoot} options={{ tabBarIcon: "run" }}></Tab.Screen>
           <Tab.Screen name="GoalRoot" component={GoalScreenRoot} options={{ tabBarIcon: "flag-checkered" }}></Tab.Screen>
           <Tab.Screen name="Logout" component={LogoutScreen} options={{ tabBarIcon: "logout" }}></Tab.Screen>
         </Tab.Navigator>
