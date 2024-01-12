@@ -1,21 +1,45 @@
-import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
-import { NavigationContainer } from "@react-navigation/native";
-import { GluestackUIProvider } from "@gluestack-ui/themed";
+import { GluestackUIProvider, View } from "@gluestack-ui/themed";
 import { config } from "@gluestack-ui/config";
-import HomeRoot from "./screens/HomeRoot";
-import GoalScreenRoot from "./screens/GoalScreenRoot";
-import LogoutScreen from "./screens/LogoutScreen";
+import BottomNavigator from "./components/molecules/BottomNavigator";
+import { useEffect, useState } from "react";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "./services/config/firebaseConfig";
+import LoginScreen from "./screens/LoginScreen";
+import { ActivityIndicator } from "react-native";
+import StackAuthNavigator from "./components/molecules/StackAuthNavigator";
+import { NavigationContainer } from "@react-navigation/native";
 
 export default function App() {
-  const Tab = createMaterialBottomTabNavigator();
+  const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setUser(user);
+      } else {
+        setUser(null);
+      }
+      if (loading) {
+        setLoading(false);
+      }
+    });
+
+    return unsubscribe;
+  }, []);
+
   return (
     <GluestackUIProvider config={config}>
       <NavigationContainer>
-        <Tab.Navigator>
-          <Tab.Screen name="HomeRoot" component={HomeRoot} options={{ tabBarIcon: "run" }}></Tab.Screen>
-          <Tab.Screen name="GoalRoot" component={GoalScreenRoot} options={{ tabBarIcon: "flag-checkered" }}></Tab.Screen>
-          <Tab.Screen name="Logout" component={LogoutScreen} options={{ tabBarIcon: "logout" }}></Tab.Screen>
-        </Tab.Navigator>
+        {loading ? (
+          <View>
+            <ActivityIndicator size="large" color="#015C6F"></ActivityIndicator>
+          </View>
+        ) : user ? (
+          <BottomNavigator></BottomNavigator>
+        ) : (
+          <StackAuthNavigator></StackAuthNavigator>
+        )}
       </NavigationContainer>
     </GluestackUIProvider>
   );
